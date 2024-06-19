@@ -1,4 +1,8 @@
-import { PokemonClient, NamedAPIResourceList } from "pokenode-ts";
+import {
+  PokemonClient,
+  NamedAPIResourceList,
+  Pokemon as PokemonInterface,
+} from "pokenode-ts";
 
 import { Pokemon } from "../types";
 
@@ -52,5 +56,19 @@ export const fetchTypes = async (): Promise<string[]> => {
   } catch (error) {
     console.error("Error fetching Pokemon types:", error);
     return [];
+  }
+};
+
+export const fetchPokemonByName = async (
+  name: string
+): Promise<PokemonInterface | null> => {
+  try {
+    const response = await client.getPokemonByName(name);
+
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error("Error fetching Pokemon types:", error);
+    return null;
   }
 };
