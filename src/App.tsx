@@ -1,4 +1,6 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { usePokemons } from "./store";
 
 import PokemonList from "./pages/PokemonList";
 import PokemonDetails from "./pages/PokemonDetails";
@@ -7,8 +9,14 @@ import Header from "./components/Header";
 import "./App.css";
 
 function App() {
+  const fetchPokemons = usePokemons((state) => state.fetchPokemons);
+
+  useEffect(() => {
+    fetchPokemons();
+  }, []);
+
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className="App">
         <Header />
         <Routes>
@@ -16,7 +24,7 @@ function App() {
           <Route path="/pokemon/:pokemonName" element={<PokemonDetails />} />
         </Routes>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

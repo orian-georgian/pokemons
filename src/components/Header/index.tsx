@@ -11,7 +11,7 @@ export default function Header() {
           <Image className="h-16" src={logo} alt="Pokemon logo" />
         </Link>
 
-        <h1 className="text-3xl font-bold text-center text-white">
+        <h1 className="text-3xl font-bold text-center text-white hidden sm:block">
           Gotta Catch 'Em All
         </h1>
 

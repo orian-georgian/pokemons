@@ -1,15 +1,16 @@
-import { useEffect } from "react";
-
 import { usePokemons } from "../../store";
+import { PokemonType } from "../../types";
 
-import { FixedSizeList as List, ListChildComponentProps } from "react-window";
-
-import pika from "../../assets/pika.png";
+// import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 
 import ListItem from "./ListItem";
 import ItemPlaceholder from "./ItemPlaceholder";
 import Filters from "./Filters";
 import Image from "../../components/Image";
+import Badge from "../../components/Badge";
+import Loader from "../../components/Loader";
+
+import pika from "../../assets/pika.png";
 
 const ListPlaceholder = () => (
   <div className="flex flex-col gap-5 p-5">
@@ -22,30 +23,34 @@ const ListPlaceholder = () => (
 
 export default function PokemonList() {
   const filteredPokemons = usePokemons((state) => state.filteredPokemons);
-  const pokemons = usePokemons((state) => state.pokemons);
-  const fetchPokemons = usePokemons((state) => state.fetchPokemons);
   const loading = usePokemons((state) => state.loading);
 
-  const Row = ({ index, style }: ListChildComponentProps) => (
+  /* const Row = ({ index, style }: ListChildComponentProps) => (
     <div style={style}>
       <ListItem {...filteredPokemons[index]} />
     </div>
-  );
-
-  useEffect(() => {
-    fetchPokemons();
-  }, []);
+  ); */
 
   return (
     <main className="w-full">
       <section className="bg-gradient-to-tr from-purple-800 to-orange-600">
         <div className="flex flex-col items-center xl:flex-row gap-24 max-w-7xl mx-auto py-16 px-5">
-          <Image className="max-w-lg lg:-mb-32" src={pika} alt="Poster pika" />
+          <Image className="w-1/2 lg:-mb-16" src={pika} alt="Poster pika" />
 
           <div className="flex flex-col gap-5 max-w-lg">
-            <h2 className="text-4xl font-bold text-white">
-              The World of Pokémon
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-4xl font-bold text-white">
+                The World of Pokémon
+              </h2>
+              {loading ? (
+                <Loader />
+              ) : (
+                <Badge type={PokemonType.ghost}>
+                  {filteredPokemons.length}
+                </Badge>
+              )}
+            </div>
+
             <p className="text-white">
               In a universe brimming with extraordinary creatures and endless
               adventure, Pokémon stand as iconic symbols of both wonder and
@@ -59,12 +64,6 @@ export default function PokemonList() {
       </section>
 
       <section className="max-w-5xl mx-auto py-5">
-        <h2 className="text-4xl text-center py-8 font-bold">
-          Pokémons{" "}
-          {loading
-            ? "loading..."
-            : `${filteredPokemons.length} / ${pokemons.length}`}
-        </h2>
         {loading ? (
           <ListPlaceholder />
         ) : (

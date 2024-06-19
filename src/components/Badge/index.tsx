@@ -17,10 +17,6 @@ const Badge: React.FC<BadgeProps> = ({ type, children, className }) => {
       bgColorClass = "bg-blue-500";
       textColorClass = "text-white";
       break;
-    case "ghost":
-      bgColorClass = "bg-gray-500";
-      textColorClass = "text-white";
-      break;
     case "grass":
       bgColorClass = "bg-green-500";
       textColorClass = "text-white";
@@ -32,6 +28,10 @@ const Badge: React.FC<BadgeProps> = ({ type, children, className }) => {
     case "electric":
       bgColorClass = "bg-yellow-500";
       textColorClass = "text-black";
+      break;
+    case "ghost":
+      bgColorClass = "bg-white";
+      textColorClass = "text-gray-800";
       break;
     default:
       bgColorClass = "bg-gray-500";
