@@ -1,14 +1,9 @@
-import {
-  PokemonClient,
-  NamedAPIResource,
-  NamedAPIResourceList,
-} from "pokenode-ts";
+import { PokemonClient, NamedAPIResourceList } from "pokenode-ts";
 
 import { Pokemon } from "../types";
 
 const client = new PokemonClient();
 
-// Function to fetch all pokemon data
 export const fetchAllPokemons = async (
   limit: number = 20
 ): Promise<Pokemon[]> => {
@@ -50,10 +45,10 @@ export const fetchAllPokemons = async (
   }
 };
 
-export const fetchTypes = async (): Promise<NamedAPIResource[]> => {
+export const fetchTypes = async (): Promise<string[]> => {
   try {
     const response = await client.listTypes();
-    return response.results;
+    return response.results?.map(({ name }) => name);
   } catch (error) {
     console.error("Error fetching Pokemon types:", error);
     return [];

@@ -6,6 +6,7 @@ import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 
 import ListItem from "./ListItem";
 import ItemPlaceholder from "./ItemPlaceholder";
+import Filters from "./Filters";
 
 const ListPlaceholder = () => (
   <div className="flex flex-col gap-5">
@@ -33,6 +34,7 @@ export default function PokemonList() {
 
   return (
     <main className="w-full">
+      <Filters />
       {loading ? (
         <ListPlaceholder />
       ) : (
