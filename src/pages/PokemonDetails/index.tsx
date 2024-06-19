@@ -25,36 +25,43 @@ const PokemonDetails = () => {
 
   if (!pokemon) return null;
 
-  const { name, sprites, weight, base_experience, moves, abilities } = pokemon;
+  const {
+    name,
+    sprites: { front_default },
+    weight,
+    base_experience,
+    moves,
+    abilities,
+  } = pokemon;
 
   return (
     <main className="flex flex-col gap-10 max-w-7xl mx-auto flex py-12 px-5">
       <div className="flex gap-3 items-center">
-        <h2 className="text-4xl font-bold capitalize">{name}</h2>
+        <h2 className="text-4xl font-bold capitalize text-slate-700">{name}</h2>
         <div className="border rounded-full bg-slate-200 ml-auto">
-          <Image
-            className="w-20 h-20"
-            src={sprites?.front_default}
-            alt={name}
-          />
+          <Image className="w-20 h-20" src={front_default || ""} alt={name} />
         </div>
       </div>
       <Divider />
       <div className="flex flex-wrap items-center gap-5">
-        <div className="flex-1 bg-sky-200 w-1/2 p-5 rounded-lg">
-          <h3 className="text-2xl font-semibold mb-3">Weight</h3>
+        <div className="flex-1 bg-sky-100 w-1/2 p-5 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-3 text-slate-700">Weight</h3>
           <Badge type={PokemonType.water}>{weight}</Badge>
         </div>
-        <div className="flex-1 bg-yellow-200 w-1/2 p-5 rounded-lg">
-          <h3 className="text-2xl font-semibold mb-3">Height</h3>
+        <div className="flex-1 bg-yellow-100 w-1/2 p-5 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-3 text-slate-700">Height</h3>
           <Badge type={PokemonType.electric}>{weight}</Badge>
         </div>
-        <div className="flex-1 bg-orange-200 w-full p-5 rounded-lg">
-          <h3 className="text-2xl font-semibold mb-3">Experience</h3>
+        <div className="flex-1 bg-orange-100 w-full p-5 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-3 text-slate-700">
+            Experience
+          </h3>
           <Badge type={PokemonType.fire}>{base_experience}</Badge>
         </div>
-        <div className="flex-3 bg-red-200 w-full p-5 rounded-lg">
-          <h3 className="text-2xl font-semibold mb-3">Abilities</h3>
+        <div className="flex-3 bg-red-100 w-full p-5 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-3 text-slate-700">
+            Abilities
+          </h3>
           {abilities.map(({ ability }) => (
             <Badge className="mr-5" type={PokemonType.fire} key={ability.name}>
               {ability.name}
@@ -62,9 +69,8 @@ const PokemonDetails = () => {
           ))}
         </div>
       </div>
-      <Divider />
       <div>
-        <h3 className="text-2xl font-semibold mb-3">Moves</h3>
+        <h3 className="text-3xl font-semibold mb-3 text-slate-700">Moves</h3>
         <div className="flex flex-wrap gap-3">
           {moves.map(({ move }) => (
             <Badge type={PokemonType.normal} key={move.name}>

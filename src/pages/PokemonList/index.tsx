@@ -64,6 +64,9 @@ export default function PokemonList() {
       </section>
 
       <section className="max-w-5xl mx-auto py-5">
+        <h2 className="text-center p-12 text-4xl font-bold text-slate-700">
+          Pokemon List
+        </h2>
         {loading ? (
           <ListPlaceholder />
         ) : (
