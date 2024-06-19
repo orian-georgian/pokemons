@@ -11,8 +11,8 @@ const Filters = () => {
   const changeType = useFilters((state) => state.changeType);
   const fetchTypes = useFilters((state) => state.fetchTypes);
   const filterPokemons = usePokemons((state) => state.filterPokemons);
+  const loading = usePokemons((state) => state.loading);
 
-  // Debounce the filterPokemons function
   const debouncedFilterPokemons = useCallback(
     debounce((value: string) => {
       filterPokemons(value, type);
@@ -23,8 +23,8 @@ const Filters = () => {
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    changeSearch(value); // Update search state immediately if needed
-    debouncedFilterPokemons(value); // Debounced call to filterPokemons
+    changeSearch(value);
+    debouncedFilterPokemons(value);
   };
 
   const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -44,12 +44,14 @@ const Filters = () => {
         className="w-full max-w-lg px-4 py-2 mb-5 text-lg rounded-lg border-2 border-gray-300 focus:outline-none focus:border-purple-600 shadow-md"
         placeholder="Search by name..."
         value={search}
+        disabled={loading}
         onChange={handleSearchChange}
       />
       <p className="text-white">Filter by type</p>
       <select
         className="w-full max-w-lg px-4 py-2 text-lg rounded-lg border-2 border-gray-300 focus:outline-none focus:border-purple-600 shadow-md"
         value={type}
+        disabled={loading}
         onChange={handleTypeChange}
       >
         <option value="">All types</option>

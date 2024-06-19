@@ -1,5 +1,6 @@
 import { usePokemons } from "../../store";
 import { PokemonType } from "../../types";
+import { LocalStoragePokemonsKey } from "../../constants";
 
 // import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 
@@ -11,6 +12,8 @@ import Badge from "../../components/Badge";
 import Loader from "../../components/Loader";
 
 import pika from "../../assets/pika.png";
+
+import { hasItem } from "../../services/localStorageService";
 
 const ListPlaceholder = () => (
   <div className="flex flex-col gap-5 p-5">
@@ -24,6 +27,7 @@ const ListPlaceholder = () => (
 export default function PokemonList() {
   const filteredPokemons = usePokemons((state) => state.filteredPokemons);
   const loading = usePokemons((state) => state.loading);
+  const hasPokemonsStored = hasItem(LocalStoragePokemonsKey);
 
   /* const Row = ({ index, style }: ListChildComponentProps) => (
     <div style={style}>
@@ -67,14 +71,14 @@ export default function PokemonList() {
         <h2 className="text-center p-12 text-4xl font-bold text-slate-700">
           Pokemon List
         </h2>
-        {loading ? (
+        {loading && !hasPokemonsStored ? (
           <ListPlaceholder />
         ) : (
           <ul className="list-none p-5">
             {filteredPokemons.map((pokemon) => (
               <ListItem key={pokemon.name} {...pokemon} />
             ))}
-            {filteredPokemons.length === 0 && (
+            {!loading && filteredPokemons.length === 0 && (
               <li className="text-center py-24 text-2xl font-semibold text-gray-500">
                 No pokémon found
               </li>

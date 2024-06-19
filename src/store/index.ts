@@ -1,18 +1,29 @@
 import { create } from "zustand";
 
 import { Pokemon, PokemonStore, FiltersStore } from "../types";
+import { LocalStoragePokemonsKey } from "../constants";
 
 import { fetchAllPokemons, fetchTypes } from "../services/pokemonService";
+import { hasItem, getItem, setItem } from "../services/localStorageService";
 
 export const usePokemons = create<PokemonStore>((set) => ({
   pokemons: [],
   filteredPokemons: [],
-  loading: false,
+  loading: true,
   error: null,
   fetchPokemons: async () => {
     try {
-      set({ loading: true });
+      const hasPokemons = hasItem(LocalStoragePokemonsKey);
+      set({
+        ...(hasPokemons
+          ? {
+              filteredPokemons:
+                getItem<Pokemon[]>(LocalStoragePokemonsKey) || [],
+            }
+          : {}),
+      });
       const pokemons: Pokemon[] = await fetchAllPokemons();
+      setItem(LocalStoragePokemonsKey, pokemons);
       set({ pokemons, loading: false, filteredPokemons: pokemons });
     } catch (error) {
       console.error("Error fetching Pokemon data:", error);
