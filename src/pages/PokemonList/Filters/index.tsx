@@ -39,9 +39,19 @@ const Filters = () => {
   }, []);
 
   return (
-    <div>
-      <input value={search} onChange={handleSearchChange} />
-      <select value={type} onChange={handleTypeChange}>
+    <div className="w-full">
+      <input
+        className="w-full max-w-lg px-4 py-2 mb-5 text-lg rounded-lg border-2 border-gray-300 focus:outline-none focus:border-purple-600 shadow-md"
+        placeholder="Search by name..."
+        value={search}
+        onChange={handleSearchChange}
+      />
+      <p className="text-white">Filter by type</p>
+      <select
+        className="w-full max-w-lg px-4 py-2 text-lg rounded-lg border-2 border-gray-300 focus:outline-none focus:border-purple-600 shadow-md"
+        value={type}
+        onChange={handleTypeChange}
+      >
         <option value="">All types</option>
         {types.map((type) => (
           <option key={type} value={type}>

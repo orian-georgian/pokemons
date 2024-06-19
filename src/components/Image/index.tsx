@@ -7,7 +7,7 @@ interface ImageProps {
 }
 
 const Image: React.FC<ImageProps> = ({ src, alt, className }) => {
-  return <img className={className} src={src} alt={alt} />;
+  return <img className={className} src={src} alt={alt} loading="lazy" />;
 };
 
 export default Image;

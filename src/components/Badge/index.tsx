@@ -5,9 +5,10 @@ import { PokemonType } from "../../types";
 interface BadgeProps {
   type: PokemonType;
   children: React.ReactNode;
+  className?: string;
 }
 
-const Badge: React.FC<BadgeProps> = ({ type, children }) => {
+const Badge: React.FC<BadgeProps> = ({ type, children, className }) => {
   let bgColorClass = "";
   let textColorClass = "";
 
@@ -39,7 +40,7 @@ const Badge: React.FC<BadgeProps> = ({ type, children }) => {
 
   return (
     <span
-      className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${bgColorClass} ${textColorClass}`}
+      className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${bgColorClass} ${textColorClass} ${className}`}
     >
       {children}
     </span>
