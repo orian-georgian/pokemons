@@ -41,7 +41,6 @@ export default function PokemonList() {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 50 &&
-      !loading &&
       hasMore
     ) {
       if (visiblePokemons.length < filteredPokemons.length) {

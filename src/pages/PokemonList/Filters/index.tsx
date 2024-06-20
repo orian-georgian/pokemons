@@ -20,7 +20,7 @@ const Filters = () => {
     debounce((value: string) => {
       filterPokemons(value, type);
     }, 250),
-    [filterPokemons]
+    [filterPokemons, type]
   );
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
