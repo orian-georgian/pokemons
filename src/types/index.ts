@@ -8,8 +8,10 @@ export type Pokemon = {
 export type PokemonStore = {
   pokemons: Pokemon[];
   filteredPokemons: Pokemon[];
+  visiblePokemons: Pokemon[];
   loading: boolean;
   error: string | null;
+  updateVisiblePokemons: (index: number) => void;
   fetchPokemons: () => Promise<void>;
   filterPokemons: (search: string, type: string) => void;
 };

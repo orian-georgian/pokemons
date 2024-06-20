@@ -20,10 +20,8 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<PokemonList />}>
-            <Route path="pokemon/:pokemonName" element={<PokemonDetails />} />
-          </Route>
-
+          <Route path="/" element={<PokemonList />} />
+          <Route path="/pokemon/:pokemonName" element={<PokemonDetails />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

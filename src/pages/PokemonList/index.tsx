@@ -1,8 +1,9 @@
+import { useState, useEffect } from "react";
+import { debounce } from "ts-debounce";
+
 import { usePokemons } from "../../store";
 import { PokemonType } from "../../types";
 import { LocalStoragePokemonsKey } from "../../constants";
-
-// import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 
 import ListItem from "./ListItem";
 import ItemPlaceholder from "./ItemPlaceholder";
@@ -26,14 +27,47 @@ const ListPlaceholder = () => (
 
 export default function PokemonList() {
   const filteredPokemons = usePokemons((state) => state.filteredPokemons);
+  const visiblePokemons = usePokemons((state) => state.visiblePokemons);
+  const updateVisiblePokemons = usePokemons(
+    (state) => state.updateVisiblePokemons
+  );
   const loading = usePokemons((state) => state.loading);
   const hasPokemonsStored = hasItem(LocalStoragePokemonsKey);
+  const [hasMore, setHasMore] = useState(true);
 
-  /* const Row = ({ index, style }: ListChildComponentProps) => (
-    <div style={style}>
-      <ListItem {...filteredPokemons[index]} />
-    </div>
-  ); */
+  const handleScroll = debounce((event: Event) => {
+    event.preventDefault();
+
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 50 &&
+      !loading &&
+      hasMore
+    ) {
+      if (visiblePokemons.length < filteredPokemons.length) {
+        updateVisiblePokemons(visiblePokemons.length);
+      } else {
+        setHasMore(false);
+      }
+    }
+  }, 300);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [
+    loading,
+    hasMore,
+    filteredPokemons,
+    visiblePokemons,
+    updateVisiblePokemons,
+  ]);
+
+  useEffect(() => {
+    setHasMore(true);
+  }, [filteredPokemons.length]);
 
   return (
     <main className="w-full">
@@ -75,7 +109,7 @@ export default function PokemonList() {
           <ListPlaceholder />
         ) : (
           <ul className="list-none p-5">
-            {filteredPokemons.map((pokemon) => (
+            {visiblePokemons.map((pokemon) => (
               <ListItem key={pokemon.name} {...pokemon} />
             ))}
             {!loading && filteredPokemons.length === 0 && (
@@ -86,15 +120,6 @@ export default function PokemonList() {
           </ul>
         )}
       </section>
-
-      {/* <List
-        height={500}
-        itemCount={filteredPokemons.length}
-        itemSize={120}
-        width="100%"
-      >
-        {Row}
-      </List> */}
     </main>
   );
 }

@@ -9,40 +9,66 @@ import { hasItem, getItem, setItem } from "../services/localStorageService";
 export const usePokemons = create<PokemonStore>((set) => ({
   pokemons: [],
   filteredPokemons: [],
+  visiblePokemons: [],
   loading: true,
   error: null,
+  updateVisiblePokemons: (index: number) =>
+    set((state) => ({
+      ...state,
+      visiblePokemons: [
+        ...state.visiblePokemons,
+        ...state.filteredPokemons.slice(index, index + 10),
+      ],
+    })),
   fetchPokemons: async () => {
     try {
       const hasPokemons = hasItem(LocalStoragePokemonsKey);
+
       set({
         ...(hasPokemons
           ? {
               filteredPokemons:
                 getItem<Pokemon[]>(LocalStoragePokemonsKey) || [],
+              visiblePokemons: (
+                getItem<Pokemon[]>(LocalStoragePokemonsKey) || []
+              ).slice(0, 10),
             }
           : {}),
       });
+
       const pokemons: Pokemon[] = await fetchAllPokemons();
+
       setItem(LocalStoragePokemonsKey, pokemons);
-      set({ pokemons, loading: false, filteredPokemons: pokemons });
+      set({
+        pokemons,
+        loading: false,
+        filteredPokemons: pokemons,
+        visiblePokemons: pokemons.slice(0, 10),
+      });
     } catch (error) {
       console.error("Error fetching Pokemon data:", error);
       set({
         pokemons: [],
         filteredPokemons: [],
+        visiblePokemons: [],
         error: "Error fetching Pokemon data",
       });
     }
   },
   filterPokemons: (search: string, type: string) =>
-    set((state) => ({
-      ...state,
-      filteredPokemons: state.pokemons?.filter(
+    set((state) => {
+      const filteredData = state.pokemons?.filter(
         (pokemon) =>
           pokemon.name.toLowerCase().includes(search.toLowerCase()) &&
           (!!type ? pokemon.types?.includes(type) : true)
-      ),
-    })),
+      );
+
+      return {
+        ...state,
+        filteredPokemons: filteredData,
+        visiblePokemons: filteredData.slice(0, 10),
+      };
+    }),
 }));
 
 export const useFilters = create<FiltersStore>((set) => ({
