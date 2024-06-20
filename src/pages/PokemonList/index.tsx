@@ -102,9 +102,15 @@ export default function PokemonList() {
       </section>
 
       <section className="max-w-5xl mx-auto py-5">
-        <h2 className="text-center p-12 text-4xl font-bold text-slate-700">
-          Pokemon List
-        </h2>
+        <div className="text-center pt-12 pb-10">
+          <h2 className="text-4xl font-bold text-slate-700">Pokémon List</h2>
+
+          <p className="text-slate-500 h-5 w-full text-sm">
+            {loading &&
+              hasPokemonsStored &&
+              "(The data is currently loading, and you are viewing cached data)"}
+          </p>
+        </div>
         {loading && !hasPokemonsStored ? (
           <ListPlaceholder />
         ) : (
