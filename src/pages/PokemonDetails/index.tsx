@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "../../components/Image";
 import Badge from "../../components/Badge";
 import Divider from "../../components/Divider";
+import noDataSvg from "../../assets/do-data.svg";
 
 import { Pokemon } from "pokenode-ts";
 import { fetchPokemonByName } from "../../services/pokemonService";
@@ -19,11 +20,22 @@ const PokemonDetails = () => {
     (async () => {
       const pokemon = await fetchPokemonByName(pokemonName);
 
+      console.log(pokemon);
+
       setPokemon(pokemon);
     })();
   }, [pokemonName]);
 
-  if (!pokemon) return null;
+  if (!pokemon)
+    return (
+      <main className="flex justify-center md:px-24 py-24">
+        <Image
+          className="max-w-screen-md"
+          src={noDataSvg}
+          alt="No data available"
+        />
+      </main>
+    );
 
   const {
     name,

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { usePokemons } from "./store";
 
@@ -20,8 +20,11 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<PokemonList />} />
-          <Route path="/pokemon/:pokemonName" element={<PokemonDetails />} />
+          <Route path="/" element={<PokemonList />}>
+            <Route path="pokemon/:pokemonName" element={<PokemonDetails />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </BrowserRouter>
