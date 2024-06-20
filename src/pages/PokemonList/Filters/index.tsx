@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect } from "react";
+import { ChangeEvent, useMemo, useEffect } from "react";
 import { debounce } from "ts-debounce";
 
 import { useFilters, usePokemons } from "../../../store";
@@ -16,10 +16,11 @@ const Filters = () => {
   const filterPokemons = usePokemons((state) => state.filterPokemons);
   const loading = usePokemons((state) => state.loading);
 
-  const debouncedFilterPokemons = useCallback(
-    debounce((value: string) => {
-      filterPokemons(value, type);
-    }, 250),
+  const debouncedFilterPokemons = useMemo(
+    () =>
+      debounce((value: string) => {
+        filterPokemons(value, type);
+      }, 250),
     [filterPokemons, type]
   );
 
@@ -39,7 +40,7 @@ const Filters = () => {
 
   useEffect(() => {
     fetchTypes();
-  }, []);
+  }, [fetchTypes]);
 
   return (
     <div className="w-full">

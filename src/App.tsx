@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     fetchPokemons();
-  }, []);
+  }, [fetchPokemons]);
 
   return (
     <HashRouter>

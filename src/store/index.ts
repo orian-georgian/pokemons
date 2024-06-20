@@ -60,7 +60,7 @@ export const usePokemons = create<PokemonStore>((set) => ({
       const filteredData = state.pokemons?.filter(
         (pokemon) =>
           pokemon.name.toLowerCase().includes(search.toLowerCase()) &&
-          (!!type ? pokemon.types?.includes(type) : true)
+          (type ? pokemon.types?.includes(type) : true)
       );
 
       return {

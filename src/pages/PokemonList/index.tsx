@@ -62,6 +62,7 @@ export default function PokemonList() {
     filteredPokemons,
     visiblePokemons,
     updateVisiblePokemons,
+    handleScroll,
   ]);
 
   useEffect(() => {
