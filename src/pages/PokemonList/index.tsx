@@ -42,14 +42,14 @@ export default function PokemonList() {
           <Image className="w-1/2 lg:-mb-16" src={pika} alt="Poster pika" />
 
           <div className="flex flex-col gap-5 max-w-lg">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-5">
               <h2 className="text-4xl font-bold text-white">
                 The World of Pokémon
               </h2>
               {loading ? (
                 <Loader />
               ) : (
-                <Badge type={PokemonType.ghost}>
+                <Badge className="-mb-2" type={PokemonType.ghost}>
                   {filteredPokemons.length}
                 </Badge>
               )}
@@ -79,7 +79,7 @@ export default function PokemonList() {
               <ListItem key={pokemon.name} {...pokemon} />
             ))}
             {!loading && filteredPokemons.length === 0 && (
-              <li className="text-center py-24 text-2xl font-semibold text-gray-500">
+              <li className="text-center pt-5 pb-12 text-2xl font-semibold text-gray-500">
                 No pokémon found
               </li>
             )}
